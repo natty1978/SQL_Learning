@@ -1,35 +1,32 @@
-CREATE DATABASE transport_company;
-
-CREATE TABLE if not exists drivers
- (
-    driver_id INT, auto_increment INT primary key unique, 
-    full_name VARCHAR(120), 
-    license_nr VARCHAR(50), 
-    status enum ('domestic', 'international'),
-    phone VARCHAR(50),
-    FOREIGN KEY (truck_nr) REFERENCES trucks(truck_nr) on delete cascade );
-RENAME TABLE drivers TO staff;
-
-CREATE TABLE if not exists trucks
- (
-    truck_nr INT,  primary key
-    model_truck VARCHAR(50),
-    truck_type enum ('tent', 'frigo'),
-    insurance_nr VARCHAR(50), unique not null, 
-    year INT unique not null, 
-FOREIGN KEY (truck_nr) REFERENCES trucks(truck_nr) on delete cascade
-);
-
-CREATE TABLE driver_truck (
-    driver_id INT,
-    truck_nr CHAR(12),
-    PRIMARY KEY (driver_id, truck_nr),
-    FOREIGN KEY (driver_id) REFERENCES drivers(driver_id),
-    FOREIGN KEY (truck_nr) REFERENCES trucks(truck_nr)
-);
+ скрипты для работы с данными:
 
 
+добавление данных в таблицу
+ALTER TABLE drivers
+ADD contract_nr CHAR(9);
 
+удаление данных
+ALTER TABLE drivers
+DROP COLUMN contract_data;
 
+удаление таблицы
+DROP TABLE if exists drivers
+CASCADE;
 
+добавление данных
+INSERT INTO drivers (full_name)
+VALUES ('Mr_Ivan_Ivanych');
 
+удаление с условием
+DELETE FROM drivers
+WHERE full_name = 'Mr_Ivan_Ivanych';
+
+редактировать данные
+UPDATE drivers
+SET full_name = 'Mr_Ivan_Ivanych'
+WHERE full_name = 'Mr_Petr_Petrovich';
+
+выбор с условием / сортировкой
+SELECT * FROM drivers
+WHERE status = 'international' 
+ORDER BY full_name;
